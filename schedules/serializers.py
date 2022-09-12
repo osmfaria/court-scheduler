@@ -6,8 +6,12 @@ import ipdb
 from users.serializers import UserBaseInfoSerializer
 
 class ScheduleSerializer(serializers.ModelSerializer):    
-    user = UserBaseInfoSerializer(read_only=True) 
     class Meta:
         model = Schedule
         fields = ["id", "datetime", "user", "court"]
         read_only_fields = ["user", "court"]
+
+class ScheduleDetail(serializers.ModelSerializer):
+    class Meta:
+        model = Schedule
+        fields = ["datetime", "court"]

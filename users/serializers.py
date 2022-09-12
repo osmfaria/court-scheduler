@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.utils.timezone import now
+
+# from schedules.serializers import ScheduleDetail
 from .models import User
 import ipdb
 
@@ -31,11 +33,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "username", "email", "first_name", "last_name","current_schedules","schedule_history", "is_owner", "date_joined"]
         read_only_fields = ["current_schedules","schedule_history", "is_owner", "date_joined"]
+        depth = 1
 
     def get_schedule_history(self, obj):
-        ipdb.set_trace()
-        return [schedule for schedule in obj.schedules.all() if schedule.datetime < now()]
+        return [{"datetime" : schedule.datetime, "court" : schedule.court.id} for schedule in obj.schedules.all() if schedule.datetime < now()]
 
     def get_current_schedules(self, obj):
-        # ipdb.set_trace()
-        return [schedule for schedule in obj.schedules.all() if schedule.datetime >= now()]
+        return [{"datetime" : schedule.datetime, "court" : schedule.court.id} for schedule in obj.schedules.all() if schedule.datetime >= now()]
