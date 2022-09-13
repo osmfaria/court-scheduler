@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.core.validators import MinValueValidator
 
 class DayOfTheWeek(models.TextChoices):
     MONDAY = "MONDAY",
@@ -26,6 +27,9 @@ class Holiday(models.Model):
     
 class Court(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    reference_number = models.IntegerField(unique=True, validators=[
+            MinValueValidator(1)
+        ])
     capacity = models.IntegerField()
     is_indoor = models.BooleanField(default=False)
     price_by_hour = models.DecimalField(max_digits=10, decimal_places=2)

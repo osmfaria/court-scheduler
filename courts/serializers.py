@@ -81,3 +81,9 @@ class CourtAvailableSchedulesSerializers(serializers.ModelSerializer):
         
         return [hour for hour in range(starting_hour, obj.closing_hour.hour) if hour not in booked_hours]
         
+
+class ReturnCourtNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Court
+        fields = ["reference_number","capacity"]
+        read_only_fields = ["court"]
